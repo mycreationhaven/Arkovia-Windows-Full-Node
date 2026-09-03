@@ -1,0 +1,57 @@
+name: Build and publish Windows full node
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: windows-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  windows-package:
+    if: github.ref == 'refs/heads/main'
+    runs-on: windows-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+    steps:
+      - name: Check out packaging source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.12'
+      - name: Set up Java compiler
+        uses: actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3 # v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Compile, test on Windows, and package
+        run: python scripts/build.py
+      - name: Publish downloadable package
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $tag = "windows-1.13.1-$($env:GITHUB_SHA.Substring(0, 7))"
+          gh release view $tag --json tagName *> $null
+          if ($LASTEXITCODE -eq 0) {
+            Write-Host "Release $tag already exists; keeping its assets unchanged."
+            exit 0
+          }
+          gh release create $tag `
+            'dist/Arkovia-Full-Node-1.13.1-Windows-x64.zip' `
+            'dist/Arkovia-Full-Node-1.13.1-Windows-x64.zip.sha256' `
+            --target $env:GITHUB_SHA `
+            --title "Arkovia 1.13.1 - Windows x64 ($($env:GITHUB_SHA.Substring(0, 7)))" `
+            --notes-file dist/release-notes.md
+          if ($LASTEXITCODE -ne 0) { throw 'Release publication failed' }

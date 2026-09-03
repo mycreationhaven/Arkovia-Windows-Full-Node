@@ -1,0 +1,28 @@
+ARKOVIA WINDOWS x64 FULL NODE
+
+1. Extract the entire ZIP to a writable folder, for example C:\Arkovia-Node.
+2. Open the extracted folder containing Start-Arkovia.bat.
+3. Double-click Start-Arkovia.bat and keep its console open.
+4. Wait for: Arkovia server 1.13.1 started successfully.
+5. Double-click Open-Wallet.bat, or visit http://127.0.0.1:4876/ locally.
+6. Allow the blockchain to sync with live peers.
+
+Java is included. Run only one node per installation folder. The first start
+imports genesis accounts; this is followed by downloading the chain from peers.
+No secret phrase is needed to start or synchronize the node.
+
+STOP: Press Ctrl+C once in the console. Wait until database shutdown completes
+and the log says Arkovia server 1.13.1 stopped. Then close the window.
+RESTART: Run Start-Arkovia.bat again from the same folder.
+
+Keep the complete folder together. Database: nxt_db. Logs: logs.
+Settings: conf\nxt.properties. Do not change conf\data genesis files.
+Peer port: TCP 4874. Wallet/API port: 4876, localhost only.
+
+Read README.md or the docs folder for complete instructions. Markdown files
+can be opened in a text editor. Online guides and downloads:
+https://github.com/mycreationhaven/Arkovia-Windows-Full-Node
+
+This is a portable package, not a Windows service or signed installer.
+See BUILD-INFO.json for this build's checks. Live-network sync remains a
+separate check that you must confirm against a trusted live Arkovia node.
