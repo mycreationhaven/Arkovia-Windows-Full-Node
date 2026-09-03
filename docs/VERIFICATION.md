@@ -30,6 +30,8 @@ The package also includes `SHA256SUMS.txt` covering individual files as built. E
 | Wallet | Local wallet responds with HTTP 200 and HTML |
 | Shutdown | Test closes the database cleanly |
 | ZIP CRC check | Created archive passes `testzip()` |
+| Empty log directory | The final ZIP contains `logs/` and extraction creates it |
+| File logger | Startup creates `logs/nxt.0.log` without a FileHandler initialization warning |
 
 `BUILD-INFO.json` records whether the bundled Windows runtime was executed for the specific build. Inspect the release's Actions log for workflow success. The startup test overrides offline mode only in its isolated test process. Distributed settings still enable normal peer connections.
 

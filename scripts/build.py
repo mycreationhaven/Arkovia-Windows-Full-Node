@@ -135,6 +135,8 @@ def main():
     smoke_output = run([smoke_java, "-Xms256m", "-Xmx2g", "-Dfile.encoding=UTF-8", "-cp", smoke_cp,
                         "NodeSmokeTest", "windows" if windows else "linux"], smoke, evidence / "startup.log", timeout=600)
     assert "SMOKE_PASS" in smoke_output and "Database shutdown completed" in smoke_output
+    assert "Can't load log handler" not in smoke_output
+    assert (smoke / "logs/nxt.0.log").is_file(), "File logging did not initialize"
     provenance = {
         "source_repository": SOURCE_URL, "source_commit": SOURCE_COMMIT,
         "packaging_commit": run(["git", "rev-parse", "HEAD"], ROOT).strip(),
@@ -154,14 +156,24 @@ def main():
     output = package.parent / (NAME + ".zip")
     with zipfile.ZipFile(output, "w", zipfile.ZIP_DEFLATED, compresslevel=6) as z:
         for path in sorted(package.rglob("*")):
-            if path.is_file():
-                z.write(path, path.relative_to(package.parent))
+            # Include directories: logs is empty before first startup but required
+            # by Java's FileHandler. File-only archives silently lost it.
+            z.write(path, path.relative_to(package.parent))
     with zipfile.ZipFile(output) as z:
         assert z.testzip() is None
+        log_entry = NAME + "/logs/"
+        assert z.getinfo(log_entry).is_dir(), "Release ZIP is missing logs/"
+        extracted_check = work / "archive-check"
+        if extracted_check.exists():
+            shutil.rmtree(extracted_check)
+        z.extract(log_entry, extracted_check)
+        assert (extracted_check / NAME / "logs").is_dir()
     checksum = sha256(output)
     (package.parent / (NAME + ".zip.sha256")).write_text(checksum + "  " + output.name + "\n", encoding="utf-8")
     (package.parent / "release-notes.md").write_text(
         "Windows x64 portable Arkovia full node with bundled Java, local browser wallet, launchers, and complete guides.\n\n"
+        "Packaging fix: preserves the empty logs directory and creates it at launcher startup if missing. "
+        "If an older installation reports a locked database, stop the other node cleanly; do not delete its database.\n\n"
         "Download **" + output.name + "**, extract the entire ZIP, then run **Start-Arkovia.bat**. "
         "After startup, open **Open-Wallet.bat**. The database downloads locally on first use.\n\n"
         "Source: `" + SOURCE_COMMIT + "`. Cryptography: 7 tests passed. Genesis import, wallet/API, "
