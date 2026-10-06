@@ -13,7 +13,7 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE_URL = "https://github.com/mycreationhaven/Arkovia-Blockchain.git"
-SOURCE_COMMIT = "52172c5079dc85e643a566b2cbeccfa5320a7a3a"
+SOURCE_COMMIT = "dabcf44d51dcf5047118ca47347465a97b26369a"
 RUNTIME_URL = "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.20.1%2B1/OpenJDK17U-jre_x64_windows_hotspot_17.0.20.1_1.zip"
 RUNTIME_SHA256 = "bc21a93923103cdaac93ee337b0ae4365e739fde36df823dd456bc67c8a9d352"
 NAME = "Arkovia-Full-Node-1.13.1-Windows-x64"
@@ -85,7 +85,7 @@ def main():
     shutil.copy2(ROOT / "package/START-HERE.txt", package / "START-HERE.txt")
     (package / "logs").mkdir(exist_ok=True)
     # Preserve the exact corresponding blockchain source, including its notices.
-    run(["git", "archive", "--format=zip", "--output=" + str(package / "Arkovia-Source-52172c5.zip"), SOURCE_COMMIT], source)
+    run(["git", "archive", "--format=zip", "--output=" + str(package / "Arkovia-Source-dabcf44.zip"), SOURCE_COMMIT], source)
     test_classes = work / "test-classes"
     test_classes.mkdir(exist_ok=True)
     test_cp = os.pathsep.join([cp, str(source / "testlib/*"), str(test_classes)])
