@@ -9,7 +9,7 @@ This guide is for maintainers. Ordinary users should download a release ZIP.
 | Input | Pinned value |
 |---|---|
 | Blockchain repository | https://github.com/mycreationhaven/Arkovia-Blockchain |
-| Blockchain commit | `52172c5079dc85e643a566b2cbeccfa5320a7a3a` |
+| Blockchain commit | `dabcf44d51dcf5047118ca47347465a97b26369a` |
 | Application version | `1.13.1` |
 | Runtime | Eclipse Temurin `17.0.20.1+1`, Windows x64 JRE |
 | Runtime ZIP SHA-256 | `bc21a93923103cdaac93ee337b0ae4365e739fde36df823dd456bc67c8a9d352` |
@@ -26,7 +26,7 @@ python scripts/build.py
 
 An optional `--runtime-archive C:\Downloads\windows-jre.zip` reuses a downloaded runtime; the hash is still checked.
 
-The script checks out the pinned source under `.build/source`, compiles the Java core with `--release 17`, runs seven cryptography tests, builds `arkovia.jar`, copies the wallet/dependencies/genesis, and adds the launchers and guides. It includes an exact source archive for the blockchain and preserves notices.
+The script checks out the pinned source under `.build/source` (including the Arkovia Signer PWA web assets), compiles the Java core with `--release 17`, runs seven cryptography tests, builds `arkovia.jar`, copies the wallet/dependencies/genesis, and adds the launchers and guides. It includes an exact source archive for the blockchain and preserves notices.
 
 The smoke test uses a disposable directory under `.build/smoke`. It starts the node offline, imports genesis, checks the local wallet/API and full-node configuration, and calls a clean shutdown. On Windows it executes **the bundled JRE**. On Linux it uses the installed Java and records that Windows execution was not performed. It does not change the online release configuration.
 

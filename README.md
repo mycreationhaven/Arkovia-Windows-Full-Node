@@ -46,7 +46,7 @@ The recommended Windows versions are operating guidance, not a claim of manual t
 | `docs/` | Installation, operation, configuration, backup, troubleshooting and build guides |
 | `BUILD-INFO.json`, `verification/` | Source/runtime provenance and results from this build |
 | `SHA256SUMS.txt` | Individual packaged-file SHA-256 checksums |
-| `Arkovia-Source-52172c5.zip` | Exact corresponding blockchain source and original notices |
+| `Arkovia-Source-dabcf44.zip` | Exact corresponding blockchain source and original notices |
 | `nxt_db/`, `logs/` | Created/used locally for the blockchain database and logs |
 
 ## Everyday use
@@ -91,7 +91,7 @@ The automated startup check runs offline with a separate disposable database. **
 
 ## Source and licensing
 
-Blockchain source: **[mycreationhaven/Arkovia-Blockchain](https://github.com/mycreationhaven/Arkovia-Blockchain)**, pinned to commit **[`52172c5079dc85e643a566b2cbeccfa5320a7a3a`](https://github.com/mycreationhaven/Arkovia-Blockchain/tree/52172c5079dc85e643a566b2cbeccfa5320a7a3a)**, application version **1.13.1**.
+Blockchain source: **[mycreationhaven/Arkovia-Blockchain](https://github.com/mycreationhaven/Arkovia-Blockchain)**, pinned to commit **[`dabcf44d51dcf5047118ca47347465a97b26369a`](https://github.com/mycreationhaven/Arkovia-Blockchain/tree/dabcf44d51dcf5047118ca47347465a97b26369a)**, application version **1.13.1**. This source includes the installable Arkovia Signer PWA under `/signer/`.
 
 This repository maintains Windows packaging, launchers, documentation and build automation. The blockchain retains its original [LICENSE.txt](LICENSE.txt), [AUTHORS.txt](AUTHORS.txt), and [third-party notices](3RD-PARTY-LICENSES.txt). Java and bundled dependencies retain their own notices. Packaging does not replace those terms with another license.
 
